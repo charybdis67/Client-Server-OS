@@ -16,7 +16,7 @@
 #include <sys/syscall.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
-
+#define MAX 10
 struct mesg_buffer{
 	long mesg_type;
 	char mesg_text[6000];
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     int msgid;
   
     // ftok to generate unique key
-    key = ftok("progfile", 65);
+    key = ftok("/home/asuman/Desktop/os pj1/Project1.pdf", 65);
   
     // msgget creates a message queue
     // and returns identifier
