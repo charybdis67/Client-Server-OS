@@ -44,7 +44,22 @@ struct mesg_buffer{
 //         printf("%d ", A[i]); 
 //     printf("\n"); 
 // } 
+// int avg()
+// {
 
+// }
+// int count()
+// {
+
+// }
+// int max()
+// {
+
+// }
+// int range()
+// {
+
+// }
 int main(int argc, char *argv[])
 {
 	// int noArg = 0;
@@ -97,12 +112,13 @@ int main(int argc, char *argv[])
     msgid = msgget(key, 0666 | IPC_CREAT);
   
     // msgrcv to receive message
+    while(message.mesg_text != "-1")
+    {
     msgrcv(msgid, &message, sizeof(message), 1, 0);
-  
     // display the message
     printf("Data Received is : %s \n", 
                     message.mesg_text);
-  
+    }
     // to destroy the message queue
     msgctl(msgid, IPC_RMID, NULL);
   

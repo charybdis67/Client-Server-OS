@@ -29,9 +29,22 @@ int main(int argc, char *argv[])
     key = ftok("/home/asuman/Desktop/os pj1/Project1.pdf", 65);
     msgid = msgget(key, 0666 | IPC_CREAT);
     message.mesg_type = 1;
-    printf("Enter command: ");
-    fgets(message.mesg_text,MAX,stdin);
-    msgsnd(msgid, &message, sizeof(message), 0);
-    printf("Data send is : %s \n", message.mesg_text);
+    printf("Enter commands: ");
+    while(message.mesg_text != "-1")
+    {
+        fgets(message.mesg_text,MAX,stdin);
+        if(strstr(message.mesg_text, "max") != NULL || message.mesg_text, "avg") != NULL || message.mesg_text, "range") != NULL || message.mesg_text, "count") != NULL)
+        {
+            msgsnd(msgid, &message, sizeof(message), 0);
+            printf("Data send is : %s \n", message.mesg_text);
+        }
+        else
+        {
+            printf("command is not valid.");
+        }
+    }
+    printf("server exited.");
+    exit(0);
+    
     return 0;
 }
