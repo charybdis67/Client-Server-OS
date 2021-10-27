@@ -24,7 +24,7 @@ struct mesg_buffer{
 
 int main(int argc, char *argv[])
 {
-	key_t key;
+    key_t key;
     int msgid;
     key = ftok("/home/asuman/Desktop/os pj1/Project1.pdf", 65);
     msgid = msgget(key, 0666 | IPC_CREAT);
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     while(message.mesg_text != "-1")
     {
         fgets(message.mesg_text,MAX,stdin);
-        if(strstr(message.mesg_text, "max") != NULL || message.mesg_text, "avg") != NULL || message.mesg_text, "range") != NULL || message.mesg_text, "count") != NULL)
+        if(strstr(message.mesg_text, "max") != NULL || strstr(message.mesg_text, "avg") != NULL || strstr(message.mesg_text, "range") != NULL || strstr(message.mesg_text, "count") != NULL)
         {
             msgsnd(msgid, &message, sizeof(message), 0);
             printf("Data send is : %s \n", message.mesg_text);
