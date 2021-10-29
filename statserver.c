@@ -103,26 +103,18 @@ int main(int argc, char *argv[])
 
     key_t key;
     int msgid;
-  
-    // ftok to generate unique key
     key = ftok("/home/asuman/Desktop/os pj1/Project1.pdf", 65);
-  
-    // msgget creates a message queue
-    // and returns identifier
     msgid = msgget(key, 0666 | IPC_CREAT);
   
     // msgrcv to receive message
     while(message.mesg_text != "-1")
     {
 	    msgrcv(msgid, &message, sizeof(message), 1, 0);
-	    // display the message
-
 	    pid_t pid;
 	    printf("arg no:%d ", noArg);
 	    for(int i = 0; i< noArg; i++)
 	    {
-	    printf("Data Received is : %s \n", 
-	                    message.mesg_text);
+	    	printf("Data Received is : %s \n", message.mesg_text);
 	    	pid = fork();
 			if(pid == 0){
 	   			printf ("loop-index=%d, myid=%d\n",  i, getpid());
@@ -151,8 +143,10 @@ int main(int argc, char *argv[])
 			{
 				printf("parent process");
 			}
-	    		for(int i = 0; i< noArg; i++){			
-				wait(NULL);}
+	    	for(int i = 0; i< noArg; i++)
+	    	{			
+				wait(NULL);
+			}
 	    }
     }
     // to destroy the message queue
