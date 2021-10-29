@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 	// 	exit(1);
 	// }
 
-	noArg = argv[1];
+	noArg = atoi(argv[1]);
 	// if(noArg < 1 || noArg > 10)
 	// {
 	// 	printf("Number of files as N should be between 1 an 10\n");
@@ -116,15 +116,18 @@ int main(int argc, char *argv[])
     {
 	    msgrcv(msgid, &message, sizeof(message), 1, 0);
 	    // display the message
-	    printf("Data Received is : %s \n", 
-	                    message.mesg_text);
+
+	    pid_t pid;
+	    printf("arg no:%d ", noArg);
 	    for(int i = 0; i< noArg; i++)
 	    {
-	    	int pid = fork();
+	    printf("Data Received is : %s \n", 
+	                    message.mesg_text);
+	    	pid = fork();
 			if(pid == 0){
-				//printf("child %d\n", i);
+	   			printf ("loop-index=%d, myid=%d\n",  i, getpid());
 				char text[6000]="0";
-				//printf("text1: %s\n",text);			
+				printf("text1: %s\n",text);			
 				key_t key;
 				int msgid;			
 				//ftok() to generate unique key
@@ -133,18 +136,23 @@ int main(int argc, char *argv[])
 					perror("IPC error: ftok");
 					exit(1);			
 				}				
-				//printf("Key is: %d\n",(int)key);
+				printf("Key is: %d\n",(int)key);
 				msgid = msgget(key, 0666| IPC_CREAT);
 				message.mesg_type=1;
-				//printf("ID is: %d\n",msgid);
+				printf("ID is: %d\n",msgid);
 				strcpy(message.mesg_text,text);
-				//printf("message.mesg_text: %s\n",message.mesg_text);
+				printf("message.mesg_text: %s\n",message.mesg_text);
 				msgsnd(msgid, &message, 
 				sizeof(message),0); 
-				//printf("Data send is: %s\n",message.mesg_text);
+				printf("Data send is: %s\n",message.mesg_text);
 				_exit(0);
 			}
-			wait(NULL);
+			else 
+			{
+				printf("parent process");
+			}
+	    		for(int i = 0; i< noArg; i++){			
+				wait(NULL);}
 	    }
     }
     // to destroy the message queue
