@@ -29,23 +29,24 @@ int main(int argc, char *argv[])
     int msgid;
     
     gettimeofday(&current_time, NULL);
-    // printf("seconds : %ld\nmicro seconds : %ld",
-    // current_time.tv_sec, current_time.tv_usec);
+    printf("micro seconds : %ld", current_time.tv_usec);
 
     key = ftok("/home/asuman/Desktop/os pj1/Project1.pdf", 65);
     msgid = msgget(key, 0666 | IPC_CREAT);
     message.mesg_type = 1;
-    printf("Enter commands from these options --> avg, count, range, exit.");
+    printf("Enter commands from these options --> avg, count, range, exit./n");
     while(message.mesg_text != "exit")
     {
         fgets(message.mesg_text,1000,stdin);
         msgsnd(msgid, &message, sizeof(message), 0);
     }
+    msgrcv(msgid, & message, sizeof(message), 1, 0);
+    printf("Data Received is : %s \n", message.mesg_text);
     printf("Client exited.");
-    exit(0);
     gettimeofday(&end_time, NULL);
-    // printf("seconds : %ld\nmicro seconds : %ld",
-    // current_time.tv_sec, current_time.tv_usec);
+    printf("micro seconds : %ld", end_time.tv_usec);
+    exit(0);
+
     return 0;
 
 }
